@@ -129,49 +129,34 @@
                         event.preventDefault();
 	      		var start_time = $("input[name = 'begin_date']").val()
 	      		var brevet_dist = $("input[name = 'brevet_dist_km']").val()
-                        var items = [];
-                        $('.listitem').each(function() { //read km etc
+                        var controls = [];
+                        $('.control').each(function() { //read km etc
                             var item = $(this);
-                            var description = item.find("input[name='description']").val();
               		    var km = item.find("input[name='km']").val();
               		    var open_time_field = item.find("input[name='open']");
               		    var close_time_field = item.find("input[name='close']");
-                            var priority = item.find("input[name='priority']").val();
                             if (km) {
-                                // Construct a dictionary
-                                item_json = {
+                                control_json = {
                                     "km": km, 
                                     "open_time_field": open_time_field,
 				    "close_time_field": close_time_field
                                 }
-                                // Push to list
-                                items.push(item_json);
+                                controls.push(control_json);
                             }
                         });
                         // Construct the data we will be sending Flask
-                        var data_list = {
+                        var control_list = {
 			    "start_time": start_time,
 			    "brevet_dist":brevet_dist,
                             "items": items}; //with km, open_Time, close_time
-                        // Perfect! Now we have all the information that the user's entered
-                        // into the form. All we have to do is send a POST request to have
-                        // the backend store it in the database!
                         $.ajax({
-                          // Expect JSON responses from our backend
                           dataType: 'json', // expected output format (getJSON sets this as well)
-                          // Specify we're sending JSON as well
                           contentType: "application/json",
-                          // Request method: POST
                           type: 'POST',
-                          // URL: specified above
                           url: SAVE_URL,
-                          // Important step that we didn't use to do in P4:
-                          // Convert our constructed dictionary to a JSON string!
-                          data: JSON.stringify(data_list),
-                          // On a successful response from flask:
-                          success: function(data) {
-                              // Check the status code we set in Flask
-                              // Recall: 1 was success, 0 was failure
+                          data: JSON.stringify(control_list),
+                          
+			  success: function(data) {
                               if (data.status == 1) {
                                   console.log("Successfully inserted! Response: ", data);
                               }
@@ -188,21 +173,16 @@
 
                 $('#fetch').click(
                     function(event) {
-                        event.preventDefault();
-                        // We use getJSON because we're sending a GET request.
-                        // getJSON is essentially running $.ajax as well, but sets the defaults for us.
-                        // So we're just using it for convenience.
-                        // Feel free to replace it with a $.ajax call like the one in #insert.
-                        $.getJSON(FETCH_URL).done(
+                        
+			 $.getJSON(FETCH_URL).done(
                           function(data) {
                              console.log(data);
                               if (data.status == 1) {
                                   console.log("Successfully fetched: ", data);
 	      			  var start_time = $("input[name = 'begin_date']").val()
 	      			  var brevet_dist = $("input[name = 'brevet_dist_km']").val()
-				  var items = data.result.items;
-                                  
-				  // For each row in the HTML table
+				  var controls = data.result.controls;
+                                  var num_items = controls.length  
                                   $('.control').each(function(index) {
                                       var litem = $(this); // This is our row
                                       // Clear existing values
@@ -211,12 +191,12 @@
                                       litem.find("input[name='close_time']").val('');
                                       // Check if we're already done?
                                       if (index < num_items) {
-                                          litem.find("input[name='km']").val(items[index].description);
-                                          litem.find("input[name='open_time']").val(items[index].priority);
-                                          litem.find("input[name='close_time']").val(items[index].priority);
+                                          litem.find("input[name='km']").val(controls[index].description);
+                                          litem.find("input[name='open_time']").val(controls[index].priority);
+                                          litem.find("input[name='close_time']").val(controls[index].priority);
                                       }
                                   });
-                              }
+		 }
                               else {
                                   console.log("Fetch failed: ", data);
                               }
