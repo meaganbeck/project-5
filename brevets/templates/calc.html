@@ -171,10 +171,14 @@
                     }
                 );
 
+		//maybe copy over $(document).ready(function()
+		//added this, idk about it
+		var data_to_flask = {km:km, open_time:open_time, close_time:close_time};	      
+
                 $('#fetch').click(
                     function(event) {
                         
-			 $.getJSON(FETCH_URL).done(
+			 $.getJSON(FETCH_URL, data_to_flask).done( //added data_to_flask
                           function(data) {
                              console.log(data);
                               if (data.status == 1) {
