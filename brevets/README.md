@@ -1,3 +1,6 @@
+Name: Meagan Beckstrand
+Email: mbeckst2@uoregon.edu
+
 This program takes in a singular input for brevet distance, and start time. These values are used to calculate the open and close time for various inputted control lengths.
 
 Control location(km) 	Min Speed (km/hr)	Max Speed (km/hr)

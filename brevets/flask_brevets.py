@@ -28,7 +28,7 @@ CONFIG = config.configuration()
 @app.route("/index")
 def index():
     app.logger.debug("Main page entry")
-#    return flask.render_template('calc.html')
+    return flask.render_template('calc.html')
 
 ###############
 #
@@ -61,7 +61,40 @@ def _calc_times():
     return flask.jsonify(result=result)
 
 
-#############
+@app.route('/insert/', method=['POST']) #where is this shit coming from?
+def insert(brevet_dist, start_time, controls):
+    controls = request.json['controls']
+    start_time = request.json['start_time']
+    brevet_dist = request.json['brevet_dist']
+
+    controls_id = insert_brevet(brevet_dist, start_time, controls)
+    #db.insert_one(brevet_dist, start_time, controls)
+        return flask.jsonify(
+            result = {},
+            status = 1,
+            message = "inserted",
+            mongo_id = controls_id)
+    except:
+        return flask.jsonify(
+            result = {},
+            status = 0,
+            message = "Server error",
+            mongo_id = 'None')
+    
+
+@app.route('/fetch')
+def fetch():
+    try:
+        controls, brevet_dist, start_time = get_brevet()
+    #brevet_dist, start_time, items = db.find(item_doc)
+    
+        return flask.jsonify(
+            result = {'brevet_dist' : brevet_dist, 'start_time' : start_time, 'controls' : controls},
+            status = 1,
+            message = "got the data"
+            )
+    except:
+        return flask.jsonify(result = {"brevet_dist": 200, "start_time": arrow.now().format("YYY-MM-DDTHH:mm"), "controls": []}, status = 0)
 
 app.debug = CONFIG.DEBUG
 if app.debug:
