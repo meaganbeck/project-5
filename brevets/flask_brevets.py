@@ -63,11 +63,11 @@ def _calc_times():
 
 @app.route('/insert/', method=['POST']) #where is this shit coming from?
 def insert(brevet_dist, start_time, checkpoints):
-    checkpoints = request.json['checkpointss']
+    checkpoints = request.json['checkpoints']
     start_time = request.json['start_time']
     brevet_dist = request.json['brevet_dist']
 
-    checkpointss_id = insert_brevet(brevet_dist, start_time, checkpoints)
+    checkpoints_id = insert_brevet(brevet_dist, start_time, checkpoints)
     #db.insert_one(brevet_dist, start_time, controls)
         return flask.jsonify(
             result = {},
@@ -85,7 +85,7 @@ def insert(brevet_dist, start_time, checkpoints):
 @app.route('/fetch')
 def fetch():
     try:
-        checkpointss, brevet_dist, start_time = get_brevet()
+        checkpoints, brevet_dist, start_time = get_brevet()
     #brevet_dist, start_time, items = db.find(item_doc)
     
         return flask.jsonify(
@@ -94,7 +94,7 @@ def fetch():
             message = "got the data"
             )
     except:
-        return flask.jsonify(result = {"brevet_dist": 200, "start_time": arrow.now().format("YYY-MM-DDTHH:mm"), "checkpointss": []}, status = 0)
+        return flask.jsonify(result = {"brevet_dist": 200, "start_time": arrow.now().format("YYY-MM-DDTHH:mm"), "checkpoints": []}, status = 0)
 
 app.debug = CONFIG.DEBUG
 if app.debug:
