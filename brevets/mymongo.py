@@ -13,7 +13,7 @@ def insert_brevet(brevet_dist, start_time, checkpoints):
 
 def get_brevet():
     items = collection.find().sort("_id", -1).limit(1)
-    for item in itemss:
+    for item in items:
         return item["checkpoints"], item["brevet_dist"], item["start_time"]
 
 if __name__ == "__main__":
