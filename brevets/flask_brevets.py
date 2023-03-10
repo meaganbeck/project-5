@@ -63,6 +63,7 @@ def _calc_times():
 
 @app.route('/insert/', method=['POST']) #where is this shit coming from?
 def insert(brevet_dist, start_time, checkpoints):
+    try:
     checkpoints = request.json['checkpoints']
     start_time = request.json['start_time']
     brevet_dist = request.json['brevet_dist']
