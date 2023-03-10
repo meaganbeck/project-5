@@ -51,10 +51,10 @@ def _calc_times():
     app.logger.debug("brev_dist={}".format(brevet_distance))
     app.logger.debug("start_time={}".format(start_time))
     app.logger.debug("request.args: {}".format(request.args))
-    # FIXME!
-    # Right now, only the current time is passed as the start time
-    # and control distance is fixed to 200
-    # You should get these from the webpage!
+     #FIXME!
+     #Right now, only the current time is passed as the start time
+     #and control distance is fixed to 200
+     #You should get these from the webpage!
     open_time = acp_times.open_time(km, brevet_distance, arrow.get(start_time, 'YYYY-MM-DDTHH:mm'))
     close_time = acp_times.close_time(km, brevet_distance, arrow.get(start_time, 'YYYY-MM-DDTHH:mm')) #maybe end_time...
     result = {"open": open_time, "close": close_time}
@@ -62,18 +62,18 @@ def _calc_times():
 
 
 @app.route('/insert/', method=['POST']) #where is this shit coming from?
-def insert(brevet_dist, start_time, controls):
-    controls = request.json['controls']
+def insert(brevet_dist, start_time, checkpoints):
+    checkpoints = request.json['checkpointss']
     start_time = request.json['start_time']
     brevet_dist = request.json['brevet_dist']
 
-    controls_id = insert_brevet(brevet_dist, start_time, controls)
+    checkpointss_id = insert_brevet(brevet_dist, start_time, checkpoints)
     #db.insert_one(brevet_dist, start_time, controls)
         return flask.jsonify(
             result = {},
             status = 1,
             message = "inserted",
-            mongo_id = controls_id)
+            mongo_id = checkpoints_id)
     except:
         return flask.jsonify(
             result = {},
@@ -85,16 +85,16 @@ def insert(brevet_dist, start_time, controls):
 @app.route('/fetch')
 def fetch():
     try:
-        controls, brevet_dist, start_time = get_brevet()
+        checkpointss, brevet_dist, start_time = get_brevet()
     #brevet_dist, start_time, items = db.find(item_doc)
     
         return flask.jsonify(
-            result = {'brevet_dist' : brevet_dist, 'start_time' : start_time, 'controls' : controls},
+            result = {'brevet_dist' : brevet_dist, 'start_time' : start_time, 'checkpoints' : checkpoints},
             status = 1,
             message = "got the data"
             )
     except:
-        return flask.jsonify(result = {"brevet_dist": 200, "start_time": arrow.now().format("YYY-MM-DDTHH:mm"), "controls": []}, status = 0)
+        return flask.jsonify(result = {"brevet_dist": 200, "start_time": arrow.now().format("YYY-MM-DDTHH:mm"), "checkpointss": []}, status = 0)
 
 app.debug = CONFIG.DEBUG
 if app.debug:
