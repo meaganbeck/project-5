@@ -61,7 +61,7 @@ def _calc_times():
     return flask.jsonify(result=result)
 
 
-@app.route('/insert/', method=['POST']) #where is this shit coming from?
+@app.route('/insert', method=['POST']) #where is this shit coming from?
 def insert(brevet_dist, start_time, checkpoints):
     try:
     checkpoints = request.json['checkpoints']
