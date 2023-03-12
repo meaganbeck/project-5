@@ -8,11 +8,11 @@ services:
           - "6661:6661"
         environment:
             MONGODB_HOSTNAME: brevetsdb
-            depends_on:
+        depends_on:
             - brevetsdb
-        volumes:
-          - type: bind
-            source: brevets/
-            target: /app
+       #volumes:
+       #- type: bind
+       #    source: brevets/
+       #    target: /app
     brevetsdb:
         image: mongo:5.0.5

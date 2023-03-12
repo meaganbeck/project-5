@@ -16,5 +16,5 @@ def get_brevet():
     for item in items:
         return item["checkpoints"], item["brevet_dist"], item["start_time"]
 
-if __name__ == "__main__":
-    app.run(port = 6661, host='0.0.0.0', debug=True) #maybe add port?
+#if __name__ == "__main__":
+#    app.run(port = 6661, host='0.0.0.0', debug=True) #maybe add port?
