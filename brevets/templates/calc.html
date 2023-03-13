@@ -127,7 +127,7 @@
 	      var start_time = $("#begin_date").val()
 	      var brevet_dist = $("#brevet_dist_km").val()
 
-		    $.getJSON(TIME_CALC_URL, {km: km, brevet_distance: brevet_dist, brevet_start_time: start_time}).done(
+		    $.getJSON(TIME_CALC_URL, {km: km, brevet_dist: brevet_dist, start_time: start_time}).done(
                 function(data) {
                    var times = data.result;
                    console.log("Got a response: ");
@@ -209,10 +209,10 @@
                               if (data.status == 1) {
                                   console.log("Successfully fetched: ", data);
 	      			  
-				  var start_time = $("input[name = 'begin_date']").val(data.result.brevet_dist);
-	      			  var brevet_dist = $("input[name = 'brevet_dist_km']").val(data.result.start_time);
+				  var start_time = $("input[name = 'begin_date']").val(data.result.start_time);
+	      			  var brevet_dist = $("input[name = 'brevet_dist_km']").val(data.result.brevet_dist);
 				  var checkpoints = data.result.checkpoints;
-                                  var num_items = checkpoints.length  
+                                  var num_items = checkpoints.length;
                                   $('.control').each(function(index) {
                                       var litem = $(this); // This is our row
                                       // Clear existing values
@@ -234,7 +234,7 @@
                               else {
                                   console.log("Fetch failed: ", data);
                               }
-                           }
+                           });//added );
                          ).fail(function(err){
                            // In case you get an error...
                            console.log("Error: ", err);
