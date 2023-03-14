@@ -87,7 +87,7 @@ def insert():
 @app.route('/fetch')
 def fetch():
     try:
-        checkpoints, brevet_dist, start_time = get_brevet()
+        brevet_dist, start_time, checkpoints = get_brevet()
     #brevet_dist, start_time, items = db.find(item_doc)
     
         return flask.jsonify(
